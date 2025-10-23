@@ -1,6 +1,6 @@
 import argparse
-from average_rating import AverageRatingReport
-from data_reader import DataReader
+from app.average_rating import AverageRatingReport
+from app.data_reader import DataReader
 from pathlib import Path
 
 def parse_arguments():

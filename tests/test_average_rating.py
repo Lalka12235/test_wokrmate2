@@ -1,5 +1,4 @@
 import pytest
-from average_rating import AverageRatingReport
 from tests.conftest import temp_csv,temp_invalid_csv,get_average_rating_report,get_data_reader
 
 

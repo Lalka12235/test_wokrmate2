@@ -1,5 +1,5 @@
 from tabulate import tabulate
-from base_report import Report
+from app.base_report import Report
 
 
 class AverageRatingReport(Report):
