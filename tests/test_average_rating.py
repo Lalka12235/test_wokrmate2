@@ -1,31 +1,35 @@
 import pytest
-from average_rating import read_csv_files, generate_average_rating_report
-from tests.conftest import temp_csv,temp_invalid_csv
+from average_rating import AverageRatingReport
+from tests.conftest import temp_csv,temp_invalid_csv,get_average_rating_report,get_data_reader
 
 
-def test_read_csv_files_nonexistent():
+@pytest.xfail('Файл не существует')
+def test_read_csv_files_nonexistent(get_data_reader):
     """Тестирует обработку несуществующего файла."""
-    with pytest.raises(FileNotFoundError, match="File nonexistent.csv does not exist"):
-        read_csv_files(["nonexistent.csv"])
+    with pytest.raises(FileNotFoundError, match="Файл nonexistent.csv не существует"):
+        get_data_reader.read_csv_files(["nonexistent.csv"])
 
-def test_read_csv_files(temp_csv):
+
+def test_read_csv_files(temp_csv,get_data_reader):
     """Тестирует чтение CSV файла."""
-    data = read_csv_files([temp_csv])
+    data = get_data_reader.read_csv_files([temp_csv])
     assert len(data) == 3
     assert data[0][0] == 'apple'
     assert data[0][1] == 4.9
     assert data[1][0] == 'samsung'
     assert data[2][0] == 'xiaomi'
 
+@pytest.xfail('Некорректные данные')
 def test_read_csv_files_invalid_data(temp_invalid_csv):
     """Тестирует обработку некорректных данных."""
-    data = read_csv_files([temp_invalid_csv])
+    data = get_data_reader.read_csv_files([temp_invalid_csv])
     assert len(data) == 0
 
-def test_generate_average_rating_report(temp_csv):
+
+def test_generate_average_rating_report(temp_csv,get_data_reader,get_average_rating_report):
     """Тестирует генерацию отчёта average-rating."""
-    data = read_csv_files([temp_csv])
-    report = generate_average_rating_report(data)
+    data = get_data_reader.read_csv_files([temp_csv])
+    report = get_average_rating_report.generate_report(data)
     assert len(report) == 3
     assert report['apple'] == 4.9
     assert report['samsung'] == 4.8

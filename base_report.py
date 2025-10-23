@@ -12,6 +12,6 @@ class Report(ABC):
         """Выводит отчёт в виде таблицы с нумерацией."""
         from tabulate import tabulate
         if not report_data:
-            print("No data to display.")
+            print("Нет данных для вывода")
             return
         print(tabulate(report_data, headers="keys", tablefmt="grid", showindex=range(1, len(report_data)+1)))

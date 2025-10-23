@@ -5,19 +5,19 @@ from pathlib import Path
 
 def parse_arguments():
     """Парсит аргументы командной строки."""
-    parser = argparse.ArgumentParser(description="Generate reports from CSV files.")
+    parser = argparse.ArgumentParser(description="Генерирует отчеты из csv файлов")
     parser.add_argument(
         "--files",
         required=True,
         nargs="+",
         type=str,
-        help="Paths to CSV files to process"
+        help="Путь до csv файлов для отчета"
     )
     parser.add_argument(
         "--report",
         required=True,
         choices=["average-rating"],
-        help="Type of report to generate"
+        help="Тип отчета для генерации"
     )
     return parser.parse_args()
 
@@ -26,28 +26,29 @@ def main():
     try:
         args = parse_arguments()
         report = AverageRatingReport()
+        data_reader = DataReader()
 
         for file in args.files:
             if not Path(file).suffix.lower() == '.csv':
-                raise ValueError(f"File {file} is not a CSV file")
+                raise ValueError(f"Файл {file} не является csv файлом")
         
-        data = DataReader.read_csv_files(args.files)
+        data = data_reader.read_csv_files(args.files)
         
         if args.report == "average-rating":
             result = report.generate_report(data)
         else:
-            raise ValueError(f"Unknown report type: {args.report}")
+            raise ValueError(f"Неизвестный тип отчета: {args.report}")
         
         report.print_report(result)
     
     except FileNotFoundError as e:
-        print(f"Error: {e}")
+        print(f"Ошибка: {e}")
         exit(1)
     except ValueError as e:
-        print(f"Error: {e}")
+        print(f"Ошибка: {e}")
         exit(1)
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f"Неизвестная ошибка: {e}")
         exit(1)
 
 if __name__ == '__main__':

@@ -1,5 +1,7 @@
 import pytest
 import csv
+from average_rating import AverageRatingReport
+from data_reader import DataReader
 
 
 @pytest.fixture
@@ -25,3 +27,11 @@ def temp_invalid_csv(tmp_path):
         writer.writerow(['test', '', '999', '4.5'])
         writer.writerow(['test', 'samsung', '999', ''])
     return str(file_path)
+
+@pytest.fixture
+def get_data_reader():
+    return DataReader()
+
+@pytest.fixture
+def get_average_rating_report():
+    return AverageRatingReport()

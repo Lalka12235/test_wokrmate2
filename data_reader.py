@@ -3,15 +3,14 @@ import csv
 
 
 class DataReader:
-    @staticmethod
-    def read_csv_files(files: list[str]) -> list[list[str]]:
+    def read_csv_files(self,files: list[str]) -> list[list[str]]:
         data = []
         for file in files:
             file_path = Path(file)
             if not file_path.exists():
-                raise FileNotFoundError(f"File {file_path} does not exist")
+                raise FileNotFoundError(f"Файл {file_path} не существует")
             if not file_path.is_file():
-                raise ValueError(f"Path {file_path} is not a file")
+                raise ValueError(f"Путь {file_path} не является файлом")
             with file_path.open('r',encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
